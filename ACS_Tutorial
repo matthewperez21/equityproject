@@ -1,0 +1,35 @@
+# How to aggregate columns
+Below_Poverty$AggregatePop <- (Below_Poverty$18_24 + Below_Poverty$25_32)
+
+# % of aggregate pop
+Below_Poverty$%BP <- (Below_Poverty$ESTIMATE_BELOW_POVERTY / Below_Poverty$ESTIMATE_TOTAL) 
+
+
+# % of MOE
+Below_Poverty$%MOE <- (sqrt((Below_Poverty$MOE_BELOW_POVERTY^2)-((Below_Poverty$%BP^2)*(Below_Poverty$MOE_TOTAL^2))) / Below_Poverty$ESTIMATE_TOTAL)
+
+# Don't use numbers and symbols for naming conventions!!
+
+p <-ggplot(df, aes(NAME, estimate))
+p +geom_bar(stat = "identity")
+
+Estimate = 361 
+MOE = 158
+
+This means census is 90% confident the true count is between 203 (361-158) and 519 (361+158)
+
+ggplot(Top_5_Populous_Counties_B17001) +
+  geom_bar( aes(x=NAME, y=estimate), stat="identity", fill="blue", alpha=0.7) +
+  geom_errorbar( aes(x=NAME, ymin=estimate-moe, ymax=estimate+moe), width=0.4, colour="orange", alpha=0.9, size=1.3)
+
+#Filter for specific counties by creating new df
+#Filter after aggregating!
+New_df <- OG_df %>% 
+  filter(County %in% c("Bexar County", "Houston")) %>%
+  filter(sex=="F")
+
+#Exporting out of R
+write_xlsx(County_edu, path = "ACS_EDU_2019.xlsx")
+
+#Selecting specific columns for new dataframe 
+County_edu <- Education_B15002_for_5_year_for_all_of_Texas_COUNTY[c("Geographic Area Name","Est_Total", "MOE_Total", "Est_HS", "MOE_HS", "Percent_HS", "Percent_MOE")]
