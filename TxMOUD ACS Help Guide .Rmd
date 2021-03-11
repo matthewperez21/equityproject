@@ -1,0 +1,1954 @@
+---
+title: "ACS Guide"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+    toc_depth: 4
+---
+
+# US Census: American Community Survey Explained
+
+## ACS Estimates
+
+Every year, over 3.5 million housing unit addresses are contacted to participate in the ACS
+
+• ACS estimates are based on a sample of the population
+
+• Creates uncertainty in the data
+
+• For more information on ACS Design and Methodology, please visit:
+
+<https://census.gov/programs-surveys/acs/methodology.html>
+
+### Availability
+
++-----------------------------------------+------------------+-------------------------------+------------------+
+| Estimated Population of Geographic Area | 1-Year Estimates | 1-Year Supplemental Estimates | 5-Year Estimates |
++=========================================+==================+===============================+==================+
+| 65,000 or more                          | x                | x                             | x                |
++-----------------------------------------+------------------+-------------------------------+------------------+
+| 20,000 to 64,999                        |                  | x                             | x                |
++-----------------------------------------+------------------+-------------------------------+------------------+
+| Less than 20,000                        |                  |                               | x                |
++-----------------------------------------+------------------+-------------------------------+------------------+
+| Planned Release Date                    | September        | October                       | Decemeber        |
++-----------------------------------------+------------------+-------------------------------+------------------+
+
+: Availability of ACS Data Products
+
+For information about data releases, please visit:
+
+<https://census.gov/programs-surveys/acs/news/data-releases.html>
+
+## What is the Margin of Error
+
+Definition: An MOE is a measure of the possible variation of the estimate around the population value
+
+• At a given confidence level, the estimate and the actual population value will differ by no more than the value of the MOE
+
+• 90% confidence level is the Census Bureau Standard
+
+• ACS MOEs are provided in the same units as their respective estimates
+
+### Measures of Sampling Variability
+
+Variance (Calculated with estimate) ---\> Standard Error ($SE = \sqrt{Variance}$)
+
+Margin of Error ---\> MOE = 1.645 x SE (Census Bureau Standard: 90 percent Confidence Level)
+
+### Alternate CI level
+
+| Confidence Level | Margin of Error (MOE) |
+|------------------|-----------------------|
+| 90%              | 1.645 x SE            |
+| 95%              | 1.96 x SE             |
+| 99%              | 2.58 x SE             |
+
+: Alternate Confidence levels
+
+Converting MOE to different confidence level:
+
+$MOE_{95 CI} = \frac{1.96}{1.645} * MOE_{90 CI}$
+
+$= 1.96 * \frac {MOE_{90CI}}{1.645}$
+
+#### Example:
+
+| Estimate   | Margin of Error |
+|------------|-----------------|
+| 10,154,024 | +/- 3,778       |
+
+: Sex by age (Under 5 years)
+
+$MOE_{95CI} = \frac{1.96}{1.645} * 3,788$
+
+= +/-4,501
+
+## Why do MOEs Matter
+
+### Confidence Intervals
+
+Confidence Intervals: (Estimate - MOE, Estimate + MOE)
+
+| Geography | MHI (\$) | MOE (\$)  |
+|-----------|----------|-----------|
+| Marfa     | 37,284   | +/-20,922 |
+
+Upper Bound = \$37,284 + 20,922 = \$58,206
+
+Lower Bound = \$37,284 - 20,922 = \$16,362
+
+CI(90%): (\$16,362, \$58,206)
+
+## Statistical Testing Using the MOE
+
+### What is statistical testing?
+
+Statistical test: A test to determine if a difference is unlikely to occur by chance. To be "statistically different", there must be statistical evidence that there is a difference between two estimates. Testing should be conducted for all comparisons both implicit and explicit.
+
+Generic Z-score formula:
+
+$$
+\frac {|Est_1 - Est_2|}{\sqrt{MOE_{est1^2} + MOE_{est2^2}}}
+$$
+
+| Subject            | US Estimate | US MOE | Texas Estimate | Texas MOE |
+|--------------------|-------------|--------|----------------|-----------|
+| Median Age (years) | 37.9        | +/-0.1 | 38.4           | +/-0.1    |
+
++------+--------------------------------------+----------------------------+
+| Step | Process                              | Result                     |
++======+======================================+============================+
+| 1    | Take the difference of the estimates | 37.9 - 38.4 = -0.5         |
++------+--------------------------------------+----------------------------+
+| 2    | Take the absolute value of step 1    | \|-0.5\| = abs(-0.5) = 0.5 |
++------+--------------------------------------+----------------------------+
+| 3    | Square the MOEs                      | US MOE: $0.1^2=0.01$       |
+|      |                                      |                            |
+|      |                                      | Texas MOE: $0.1^2=0.01$    |
++------+--------------------------------------+----------------------------+
+| 4    | Add the squared MOEs together        | 0.01 + 0.01 = 0.02         |
++------+--------------------------------------+----------------------------+
+| 5    | Take the square root of the sum      | $\sqrt{0.02}≈0.141$        |
++------+--------------------------------------+----------------------------+
+| 6    | Divide step 2 by step 5              | 0.5/0.141 = 3.55           |
++------+--------------------------------------+----------------------------+
+| 7    | Compare result to 1.0                | 3.55\>1.0                  |
++------+--------------------------------------+----------------------------+
+
+If the result is greater than 1.0, then the estimates are statically different at the 90% confidence level
+
+$\frac{|37.9 - 38.4|}{\sqrt{(0.1)^2 + (0.1)^2}} = 3.55$
+
+Use this method for:
+
+Any type of estimate (count, percent, median, rate, etc.)
+
+• Between years
+
+• Not between single-year and multi-year estimates
+
+• Between non-overlapping multi-year periods
+
+• Across geographic areas • Between surveys (e.g. ACS vs Census)
+
+• To check ACS/ Census compatibility, visit: <https://www.census.gov/programs-surveys/acs/guidance/comparing-acs-data.html>
+
+### Statistical Testing Tool
+
+<https://www.census.gov/programs-surveys/acs/guidance/statistical-testing-tool.html>
+
+## Special Case
+
+### Controlled Estimates
+
+-   MOE = \*\*\*\*\* (5 asterisks
+
+-   Set MOE = 0 for statistical testing
+
+| Population         | Estimate    | MOE        |
+|--------------------|-------------|------------|
+| Total              | 318,558,162 | \*\*\*\*\* |
+| Male               | 156,765,322 | +/-6,427   |
+| Male under 5 years | 6,431,470   | +/-2,858   |
+
+: Example of 5 asterisks
+
+### Zero Estimate MOEs
+
+Zero Estimates will also have an MOE
+
+| Population         | Estimate | MOE   |
+|--------------------|----------|-------|
+| Total              | 211      | +/-72 |
+| Male               | 84       | +/-48 |
+| Male under 5 years | 0        | +/-23 |
+
+: Under 5 years pop has 0 estimate but a +/-23 MOE.
+
+### Medians and Aggregates
+
+| Population: Median income in the past 12 months -- | Estimate | MOE       |
+|----------------------------------------------------|----------|-----------|
+| Total                                              | 24,063   | +/-6,521  |
+| Born in state of residence                         | 19,375   | +/-14,024 |
+| Born in other state of the US                      | 56,667   | +/-14,001 |
+| Native; born outside the US                        | \-       | \*\*      |
+| Foreign born                                       | 2,500-   | \*\*\*    |
+
+Median and Aggregates with too few observations
+
+Percents and Ratios with a denominator of zero (0)
+
+-   Estimate = "-", MOE = "\*\*"
+
+Medians in lower or upper categories:
+
+-   Estimate = "\$2,500-", MOE = "\*\*\*"
+
+-   Estimate = "\$250,000+", MOE = "\*\*\*"
+
+Statistical Testing **NOT** possible
+
+## Estimates with Large MOES
+
+Exercise caution
+
+-   Questionable Reliability
+
+-   Small sample size
+
+Possible Solutions:
+
+-   Use a larger geography
+
+-   Combine estimates across characteristics, geographies or both
+
+## Deriving New Estimates
+
+### Must approximate with MOE
+
+![](images/Deriving%20New%20Estimates.png)
+
+To calculate total number of children under the age of 5 years old:
+
+1.  Sum the estimates for males and females
+
+2.  Approximate the MOE:
+
+    $MOE(SUM) = \sqrt{(MOE_{est1}{^2} + MOE_{est2}{^2}...}$
+
+Approximating the MOE
+
+| Characteristics        | Estimate   | MOE      |
+|------------------------|------------|----------|
+| Under 5 years, Males   | 10,154,024 | +/-3,778 |
+| Under 5 years, Females | 9,712,936  | +/-3,911 |
+
+Estimate of the Sum = 10,154,024 + 9,712, 936 = 19,866,960
+
+$MOE(Sum) = \sqrt{3,778^2 + 3,911^2} ≈ 5,438$
+
+| Characteristics (Native Hawaiian and Other Pacific Islander alone) \| Estimate \| MOE \|
+
+\|-------------------------------\|----------\|-------\| \| Under 5 years old \| 0 \| +/-22 \| \| 5 to 9 years old \| 0 \| +/-22 \| \| Under 5 years old \| 0 \| +/-29 \| \| 5 to 9 years old \| 41 \| +/-37 \| \| **TOTAL** \| 41 \| +/-47 \|
+
+When approximating a sum, use only the largest zero estimates MOE, once:
+
+$MOE(Sum)=\sqrt{37^2 + 29^2}≈47$
+
+## ACS Resources
+
+<https://www.census.gov/programs-surveys/acs/>
+
+<https://www.census.gov/programs-surveys/acs/technical-documentation/code-lists.html>
+
+<https://www.census.gov/programs-surveys/acs/guidance/handbooks.html>
+
+<https://www.census.gov/programs-surveys/acs/guidance/training-presentations.html>
+
+<https://www.census.gov/acs/www/guidance/comparing-acs-data/acscensus-table-lookup>
+
+<https://www.census.gov/programs-surveys/acs/methodology/design-and-methodology.html>
+
+<https://www.census.gov/content/dam/Census/library/publications/2020/acs/acs_general_handbook_2020.pdf>
+
+## Source ACS!
+
+Use this example to help format sourcing for ACS
+
+U.S. Census Bureau's [YYYY-YYYY] American Community Survey [1/5]-year [estimates/statistics/data release]
+
+Template for this section:
+
+<https://www.census.gov/content/dam/Census/programs-surveys/acs/guidance/training-presentations/20180418_MOE.pdf>
+
+# Working with ACS Data using R
+
+Used Eric Pimpler's pub as the framework! Visit here: <https://rstudio-pubs-static.s3.amazonaws.com/541247_e7b707cd2f71405bb5624517877785ff.html>
+
+## Establish workflow for general data analysis, git, github, and specific census data analysis
+
+The very first step of any workflow will begin with you starting your project. We will go and create a new project that has the git version control set to the correct github url. I like to first create a directory, and some subdirectories I know I'll use in my local storage. We can probably standardize what subdirectories our projects should have (i.e., cache, old, data, doc, figs, reading, main...) and if you work on Rmd (WHICH WE WILL BE DOING), there will be some subdirectories and files made for you.
+
+### YAML Header
+
+We will use R Markdown as our workflow manager. R Markdown works by creating "chunks" so you can work in a stepwise manner. It begins with a "chunk" that establish the setup or output we want for R Markdown. We can go ahead and use the default but I think we should also look into using YAML ([http://svmiller.com/blog/2016/02/svm-r-markdown-manuscript/).](http://svmiller.com/blog/2016/02/svm-r-markdown-manuscript/).)
+
+------------------------------------------------------------------------
+
+title: "Enter Title Here"
+
+author: "Enter Name Here"
+
+date: "Enter Date Here"
+
+output:
+
+word_document: default
+
+html_document: default
+
+------------------------------------------------------------------------
+
+### Optional Chunk
+
+The next chunk is optional but can be very useful. The first set of options tells R Markdown to cache everything by default, which I think is appropriate for analyses of bigger data sets or those that involve more complicated models. They also tell R Markdown to suppress any unnecessary warnings or messages that some lines of code may want to spit into the console (and thus be knitted). The next two options specify the directories for the cache and the figures. Do note: a researcher can always have R Markdown create these directories in lieu of the researcher manually creating these directories. The final option (fig.process) takes a close eye to discern what it's doing, but it will change how R Markdown names figures. By default, R Markdown will name a figure as whatever the name of the chunk is and add a number to it. This command will strip the file name of the number, leaving a file named something like plot_sims.pdf instead of plot_sims-1.pdf.
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The flow proceeds with a next "main" R chunk that starts with loading important libraries to be used throughout the project. The next chunk proceeds with a series of commands that source code to load data, clean data, analyze data, and extract quantities of interest from the data. Thereafter, the results are processed as a figure or table to be inserted at various stages in the working file.
+
+<http://svmiller.com/blog/2019/07/academic-workflow-rmarkdown-guide-template/#concept>
+
+<http://svmiller.com/blog/2016/02/svm-r-markdown-manuscript/>
+
+### Git and Github
+
+We will be using Git and GitHub for version control of all of our projects so all of our work will be easily undestood and reproducable. Git is just a particular implementation of version control. GitHUb is just a website that you can store your repository online for free!
+
+The workflows Git/GITHUB works this way:
+
+![](images/git_areas.png)
+
+\*\*\*Reminder: before doing anything make sure you have a new project that has the git version control set to the correct github url.\*\*\*
+
+You will create/edit/modify your/our repository files inside of you local storage. Once you have made changes, you will save the changes to your local storage and the this will stage those changes in the "git" staging area. From this area you can select your changes and "commit" these changes which create a snapshot of the file on Git along with a commit message (always leave descriptive and useful commit messages). Now all we have to to upload the modifications (commits) you made at the local level to github is "push" the commits.
+
+Since we will sometimes be working together on the same repository it is important that we "pull" to bring any other persons commits into the local copy of the git repository.
+
+Commit often and always write good messages so people can work behind you!
+
+<https://r-bio.github.io/intro-git-rstudio/>
+
+## ACS Data Analysis
+
+### Census packages
+
+We will use these packages below!
+
+```{r}
+library(tidycensus)
+
+library(tidyverse)
+
+library(leaflet)
+
+library(leafem)
+
+library(tigris)
+
+library(sf)
+
+library(viridis)
+
+library(mapview)
+
+library(ggrepel)
+
+library(ggplot2)
+
+library(ggalt)
+
+library(dplyr)
+
+library(ggthemes)
+
+census_api_key("85df8a378db95eab37d29c343578fe8406959e23")
+
+options(tigris_use_cache = TRUE)
+
+```
+
+### Tidy Census Functions
+
+#### Main Functions:
+
+get_acs() American community survey
+
+get_decennial() Decennial census
+
+get_estimates() Population estimates
+
+load_variables() Load variables to search in R
+
+#### get_acs() arguments
+
+geography = state, US, county school district, tract, city, etc
+
+year = endyear of sample ie 2019
+
+survey = acs1, acs3, or acs5
+
+table or variables = B03002 or B03002_012
+
+### Why use variables instead of a table ID?
+
+In other instances you might have a single row, buy you need to pull tables with different suffixes like Median Household Income
+
+B19013D = Median HH Income (Asian Alone HH)
+
+B19013H = Median HH Income (NH-White Alone HH)
+
+B19013I = Median HH Income (Hispanic, any race HH)
+
+Instead of pulling each table separately you can pull them all together like this:
+
+Table B19013 = HH Median Income, but there are separate tables for each racial/ethnic group
+
+#### Supported Geographies
+
+Tidycensus supports these geographies: US, Region, State, County, Tract, Block group, place, congressional district,zip code, school district
+
+### What if you don't have all the census tables memorized?
+
+You can use the load_variables() function!
+
+ACS5 \<- load_variables(year = 2019, dataset = "acs5")
+
+### Simple Example
+
+How to receive ACS data for a specific table, by state, with 'county' or 'tract' level geography for the requested 5 year ACS (2019).
+
+```{r Getting ACS Data}
+
+df2019 = get_acs(geography = "county", table = "B16004", state = 'TX', geometry = FALSE, year = 2019)
+
+```
+
+We will now check the number of rows and columns
+
+```{r Check Number of Rows}
+
+nrow(df2019)
+```
+
+```{r Check Number of Columns}
+
+ncol(df2019)
+
+```
+
+Always check the head and tail of your data
+
+```{r Head}
+
+head(df2019)
+
+```
+
+```{r Tail}
+
+tail(df2019)
+
+```
+
+### Benefits of Tidycensus
+
+You can reduce the amount of "point and click", Reproducibility and scale, tidyverse-friendly (easily integrate the %\>%), Supports spatial data!
+
+What can we do with tidycensus? Uses - create r script for top 10 counties/states/zipcodes/whatever, build a Shiny app that connects to Census APIs for internal use, quickly pull down contextual data for merging into surveys, go from Data to table or visualization quickly!
+
+Here's a quick viz example!
+
+```{r Quick Viz}
+# Pull tables
+
+get_acs(geography = "county", state = "TX",
+                     table = "B19001") %>%
+  head(10)
+
+# Pull viz
+
+get_acs(geography = "county",
+        state = "TX",
+        variables = "B03002_012", # I only want the 12th row of this table
+        year = 2019,
+        survey = "acs5",
+        summary_var = "B03002_001") %>%
+  top_n(10, wt = estimate) %>%
+  rename(`Hispanic Population` = estimate) %>%
+  ggplot(aes( x = reorder(NAME,`Hispanic Population`),
+              y = `Hispanic Population`)) +
+  geom_col(fill ="red" ) +
+  coord_flip()+
+  theme_minimal()+
+  scale_y_continuous(labels = scales::comma)+
+  labs(title = "Counties with the largest Hispanic Population",
+       subtitle  = "2019 ACS 5 YR Estimates",x ="")
+
+```
+
+You also have the ability to use both "tidy" and "wide" data
+
+Tidy
+
+```{r}
+income <- get_acs(geography = "state", table = "B19001")
+income
+```
+
+Wide
+
+```{r}
+inc_wide <- get_acs(geography = "state", table = "B19001", 
+                    output = "wide")
+inc_wide
+```
+
+You will see examples of all these as we dive deeper into working with this kind of data!
+
+### Using variables, we can pull rows from different tables at once
+
+```{r}
+get_acs(geography = "county",
+
+        variables = c("B19013D_001", "B19013H_001", "B19013I_001"),
+
+        year = 2019,
+
+        survey = "acs5", summary_var = "B19013_001") %>%
+
+  top_n(n = 10, wt= summary_est)
+```
+
+Tidycensus supports these geographies: US, Region, State, County, Tract, Block group, place, congressional district,zip code, school district
+
+### Multiple Counties
+
+How to receive ACS Data for a specific table, by state, with 'county' or 'tract' level geography for a select amount of counties or tracts.
+
+```{r Multiple Counties}
+
+counties = c("Travis", "Williamson", "Hays", "Bastrop", "Caldwell")
+
+dfTractsAustinMetro = get_acs(geography = "tract", table="B16004", state='TX', county=counties, geometry = FALSE, year = 2019)
+
+```
+
+```{r rows(1)}
+
+nrow(dfTractsAustinMetro)
+```
+
+```{r head}
+
+head(dfTractsAustinMetro)
+```
+
+### Caching Data for Faster Access
+
+Below you will see how to use the cache_table parameter to cache the table for future access
+
+```{r Caching Table}
+
+dfTractsTravis = get_acs(geography = "tract", table="B16004", state='TX', county='Travis', geometry = FALSE, year = 2019, cache_table = TRUE)
+```
+
+```{r cache row}
+
+nrow(dfTractsTravis)
+```
+
+```{r cache head}
+
+head(dfTractsTravis)
+```
+
+### Specifying Variables from a Table
+
+You can specify particular variables from a table rather than returning the entire table. Table B16004 from ACS contains LEP data. This includes speaks spanish, Speaks English Fluently, Speaks English Well, Speaks English Not Well, Speak English Not At All. But what if you only want the data for English Not Well and Not At All and not all the other information? The variables parameter can be used. It accepts a vector or character string. In this example we'll return the information for Not Well and Not at All which is contained within the 007-008 variables. We also specify a summary variable here using the 004 variable for all those that speak spanish.
+
+```{r Specific Variable}
+
+spanish = c("B16004_007", "B16004_008")
+
+counties = c("Kendall", "Comal", "Bexar", "Atascosa", "Bandera", "Guadalupe", "Medina", "Wilson")
+
+df = get_acs(geography = "county", state = 'TX', county = counties, variables = spanish, summary_var = "B16004_004", geometry = FALSE, year = 2019, cache_table = TRUE)
+```
+
+```{r head(2)}
+
+head(df)
+```
+
+Using the summary_var argument allows you to also pull the total population which is helpful when that is the denominator you will be working with. You will not two new variables, summary_est and summary_moe.
+
+```{r}
+race_vars <- c(White = "B03002_003", Black = "B03002_004", Native = "B03002_005", Asian = "B03002_006",
+               HIPI = "B03002_007", Hispanic = "B03002_012")
+
+tx_race <- get_acs(geography = "county",
+                   state = "TX",
+                   variables = race_vars,
+                   summary_var = "B03002_001")
+
+tx_race
+```
+
+#### Calculate proportions
+
+Let's start with summary_est to calculate proportions
+
+We want data on the top 5 tracts witht he largest population share of Hispanics, Blacks and Asians
+
+To make calculations easier, we can set summary_var to = the total population of the tract
+
+```{r}
+groupstopull <- c("B03002_003","B03002_004",
+                  "B03002_006","B03002_012")
+get_acs(geography = "tract",
+        variables = groupstopull, # To keep your function call a little cleaner, you can pass a vector of strings
+        state = "TX",
+        year = 2019,
+        survey = "acs5",
+        summary_var = "B03002_001") %>% # Our summary variable is the total population in the tract
+  mutate(group = case_when(variable == "B03002_006" ~ "Asian", # Creating new var Group
+                           variable == "B03002_004" ~ "Black",
+                           variable == "B03002_003" ~ "NH-White",
+                           variable == "B03002_012" ~ "Hispanic")) %>%
+  mutate(group_share = estimate/summary_est) %>% # Calculating Group Share of Total Pop for each tract
+  select(NAME,group,estimate,group_share) %>% # Dropping vars
+  group_by(group) %>% # Grouping by racial/ethnic group
+  top_n(n = 2, wt = group_share) %>% # Within each racial/ethnic group show me the top 2 districts by ethnic/racial pop share
+  arrange(desc(group))
+
+```
+
+#### Calculating percentages
+
+```{r}
+tx_race_pct <- tx_race %>%
+
+mutate(pct = 100 * (estimate / summary_est)) %>%
+
+select(NAME, variable, pct)
+
+tx_race_pct
+```
+
+#### Group-wise Census data analysis
+
+lets see which race is the highest for each county
+
+```{r}
+tx_largest <- tx_race %>%
+
+group_by(GEOID) %>%
+
+filter(estimate == max(estimate)) %>%
+
+select(NAME, variable, estimate)
+
+tx_largest
+
+```
+
+```{r}
+#Count of races that are the largest in tx counties
+
+tx_largest %>%
+
+group_by(variable) %>%
+
+tally()
+```
+
+#### Recoding variables for group-wise analysis
+
+### Pulling data over time
+
+We'll need to use the get_estimates to pull data from Census population estimates API
+
+```{r}
+get_estimates(geography = "combined statistical area",
+              product = "population",
+              year = 2019,
+              time_series = T)
+
+```
+
+Time to plot it!
+
+```{r}
+get_estimates(geography = "combined statistical area",
+              product = "population",
+              year = 2019,
+              time_series = T) %>%
+  filter(DATE %in% c(8,11) & variable== "POP") %>%
+  select(-variable,-GEOID) %>%
+  spread(DATE,value) %>%
+  mutate(growth_rate = (`11` - `8`)/`8`) %>%
+  top_n(n = 10, wt= growth_rate) %>%
+  ggplot(aes(x = reorder(NAME,growth_rate), y = growth_rate)) +
+  geom_col(fill = "firebrick") +
+  coord_flip() +
+  labs(title ='Top 10 CSAs by 2015 to 2019 growth rate',
+       x="", y="") +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(2))
+
+```
+
+### Filtering your ACS data with tidyverse
+
+Below is how you create a subset of records with the filter() dplyr function. We'll start by filtering our LEP data for estimates over 100
+
+```{r Greater than 100}
+
+#filter the data so that only counties that have a value of less than 100
+
+dfLEP = filter(df, estimate >= 100)
+
+nrow(dfLEP)
+```
+
+```{r Greater than 100 head}
+
+head(dfLEP)
+```
+
+You can see that we were only returned \*\*estimate\*\* values above 100!
+
+A better example would be housing data. We'll filter median estimated home values for 2019 from the ACS to include only records where the estimate median home value is less than 200,000.
+
+```{r Median Home}
+
+#get home value information from ACS for 2019
+
+dfHomeValues = get_acs(geography = "county", state = 'TX', variables = "B25077_001", geometry = FALSE, year=2019)
+
+```
+
+```{r Median Home head}
+
+head(dfHomeValues)
+```
+
+```{r Less than 200,000}
+
+#filter the data so that only counties that have a median value of less than 200,000 are retained
+
+dfHomeValues = filter(dfHomeValues, estimate <= 200000)
+
+nrow(dfHomeValues)
+```
+
+```{r head 5}
+
+head(dfHomeValues, 20)
+```
+
+### Arranging Variables
+
+In this example you'll learn how to use the arrange() function to order the rows in a dataframe using a variable (column). Rows can sorted in ascending or descending order. Here we'll arrange the median home values for 2017 from ACS in descending order.
+
+```{r data}
+
+#get LEP value information from ACS for 2019
+
+dfLEP = get_acs(geography = "county", state = 'TX', variables = "B16004_001", geometry = FALSE, year=2019)
+
+```
+
+```{r rows(10)}
+
+nrow(dfLEP)
+```
+
+```{r head again}
+
+head(dfLEP)
+```
+
+```{r filter/arrange}
+
+dfLEP = filter(df, estimate > 1)
+
+dfLEP = arrange(dfLEP, desc(estimate))
+
+head(dfLEP, 6)
+
+```
+
+### Selecting Variables
+
+You will use the select() fucntion from the tidyverse package to specify which columns to include in a dataframe. The select() can also be used to rename columns as illustrated below.
+
+```{r Select Function}
+
+#use the select function to restrict the columns that are included and rename columns (We renamed "moe" to "ErrorEst)
+
+dfLEP = select(dfLEP, NAME, estimate, "Estimate Error" = moe)
+
+head(dfLEP)
+```
+
+### Separating Columns
+
+You will use the separate() function to separate one column into multiple columns. This is often useful for splitting Census geographies into multiple columns. For example, you might want to split county and state into separate counties since they are originally stored in a single column
+
+```{r Get Data}
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = FALSE, year=2017)
+```
+
+```{r head 121}
+
+head(dfMedHHInc)
+```
+
+Using separate() function
+
+```{r Separate}
+
+dfMedHHInc = separate(dfMedHHInc, NAME, into=c("COUNTY", "STATE"), sep="\\,")
+
+head(dfMedHHInc)
+```
+
+### Adding/Redefining Columns
+
+The mutate() function can be used to add new columns to a data frame based on information found in existing columns of the data frame. It can also be used to redefine rows values for an existing column.
+
+```{r getting data}
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = FALSE, year=2017)
+```
+
+```{r separarting}
+
+dfMedHHInc = separate(dfMedHHInc, NAME, into=c("COUNTY", "STATE"), sep="\\,")
+
+head(dfMedHHInc)
+```
+
+Quotations are supposed to disappear around state...
+
+```{r Mutate}
+
+dfMedHHInc = mutate(dfMedHHInc, STATE = trimws(STATE))
+
+head(dfMedHHInc)
+```
+
+### Grouping/Summarizing Data
+
+You will use the group_by() function to group based on one or more columns. To produce summary statistics for a data frame we will use the summarize() function.
+
+```{r get the data!}
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = FALSE, year=2017)
+```
+
+```{r separate the datas!}
+
+dfMedHHInc = separate(dfMedHHInc, NAME, into=c("COUNTY", "STATE"), sep="\\,")
+
+dfMedHHInc = mutate(dfMedHHInc, STATE = trimws(STATE))
+
+head(dfMedHHInc)
+```
+
+```{r Group By}
+
+dfGroup = group_by(dfMedHHInc, STATE)
+
+dfSum = summarize(dfGroup, mean(estimate))
+
+head(dfSum)
+```
+
+```{r Summary 2}
+
+dfSum = select(dfSum, STATE, MeanHHIncome = `mean(estimate)`)
+
+dfSum = arrange(dfSum, desc(MeanHHIncome))
+
+head(dfSum)
+
+```
+
+While the Census Bureau API and tidycensus return pre-computed margins of error for you, you may want to derive new estimates from downloaded ACS data and in turn understand the margins of error around these derived estimates. tidycensus includes four functions (listed below) to help you with these tasks, each of which incorporates the recommended formulas from the US Census Bureau.
+
+These functions are moe_sum, moe_product, moe_ratio, and moe_prop
+
+#### Computing MOE for derived sums
+
+\`\`{r} moe_sum(x = c(55, 33, 44, 12, 4))
+
+### Inspect
+
+tx_eldpov \<- get_acs(geography = "tract",
+
+variables = c(eldpovm = "B17001_016",
+
+eldpovf = "B17001_030"),
+
+state = "TX")
+
+\#\#\#\#Group-wise MOEs
+
+tx_eldpov2 \<- tx_eldpov %\>%
+
+group_by(GEOID) %\>%
+
+summarize(
+
+estmf = sum(estimate),
+
+moemf = moe_sum(moe = moe, estimate = estimate)
+
+)
+
+tx_eldpov2
+
+\#\#\#Visualizing MOES with ACS
+
+ggplot(tx_eldpov2, aes(x = estmf, y = GEOID)) +
+
+geom_errorbarh(aes(xmin = estmf - moemf,
+
+xmax = estmf + moemf)) +
+
+\#\#\#\#This output would be nonsense
+
+geom_point()
+
+\#\#\#\#The most common approach to visualizing any uncertainty is through error bar plot
+
+tx_age \<- get_acs(geography = "county",
+
+variables = c(medianage = "B01002_001"),
+
+state = "TX")
+
+ggplot(tx_age, aes(x = estimate, y = NAME)) +
+
+geom_errorbarh(aes(xmin = estimate - moe,
+
+xmax = estimate + moe)) +
+
+geom_point()
+
+\#\#\#Formatting MOE plots
+
+tx_age2 \<- tx_age %\>%
+
+mutate(NAME = str_replace(NAME," County, Texas", ""))
+
+ggplot(tx_age2,
+
+aes(x = estimate,
+
+y = reorder(NAME, estimate))) +
+
+geom_errorbarh(aes(xmin = estimate - moe,
+
+xmax = estimate + moe)) +
+
+geom_point(size = 3, color = "darkgreen") +
+
+theme_grey(base_size = 14) +
+
+labs(title = "Median age, counties in Wyoming",
+
+subtitle = "2012-2016 American Community Survey",
+
+x = "ACS estimate (bars represent margins of error)",
+
+y = "")
+
+### Piping
+
+Piping allows us to send the output of one function to another function without creating an intermediate dataset.
+
+```{r Piping}
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = FALSE, year=2017) %>%
+
+  separate(NAME, into=c("COUNTY", "STATE"), sep="\\,") %>%
+
+  mutate(STATE = trimws(STATE)) %>%
+
+  group_by(STATE) %>%
+
+  summarize(mean(estimate))%>%
+
+  select(STATE, MeanHHIncome = `mean(estimate)`) %>%
+
+  arrange(desc(MeanHHIncome))
+```
+
+```{r get the data head!}
+
+head(dfMedHHInc)
+```
+
+### Retrieving Spatial Data
+
+Tidycensus allows us to return simple feature geometry by setting "geometry = TRUE" in the get_acs() function.
+
+```{r Spatial Data}
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = TRUE, year=2017, state= "TX", county = c("Kendall", "Comal", "Bexar", "Atascosa", "Bandera", "Guadalupe", "Medina", "Wilson"))
+
+head(dfMedHHInc)
+```
+
+### Plotting with ggplot2
+
+We can use ggplot to create a map of the output simple feature geometry (noninteractive map)
+
+```{r ggplot2 map}
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = TRUE, year=2017, state= "TX", county = c("Kendall", "Comal", "Bexar", "Atascosa", "Bandera", "Guadalupe", "Medina", "Wilson"))
+
+p = ggplot(dfMedHHInc, aes(fill = dfMedHHInc$estimate)) + geom_sf(color = NA) + coord_sf(crs = 26911) + scale_fill_viridis_c(option = "magma")
+
+p
+```
+
+### Plotting with leaflet
+
+We can use leaflet to create maps with additional functionality including dynamic maps that can be zoomed and panned.
+
+```{r leaflet}
+
+counties = c("Kendall", "Comal", "Bexar", "Atascosa", "Bandera", "Guadalupe", "Medina", "Wilson")
+```
+
+Get the median household income data
+
+```{r median household}
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = TRUE, year=2017, state= "TX", county = c("Kendall", "Comal", "Bexar", "Atascosa", "Bandera", "Guadalupe", "Medina", "Wilson"))
+```
+
+Wrangle the data
+
+```{r median household wrangle}
+
+dfMedHHInc2 = separate(dfMedHHInc, NAME, into=c("COUNTY", "STATE"), sep="\\,") %>%
+
+    separate(COUNTY, into=c("COUNTY_NAME", "OTHER"), sep="\\s") %>%
+
+    mutate(STATE = trimws(STATE)) %>%
+
+    mutate(COUNTY_NAME = trimws(COUNTY_NAME)) %>%
+
+    filter(STATE == 'Texas', COUNTY_NAME %in% counties) %>%
+
+    arrange(desc(estimate))
+```
+
+create the color palette and assign it to the estimate field with 5 bins
+
+```{r my palette}
+
+mypal = colorBin(palette = "YlGnBu",domain = dfMedHHInc2$estimate, bins = 5, pretty = TRUE)
+```
+
+create the popup info window
+
+```{r pop up}
+
+popup = paste0("Name: ", dfMedHHInc2$COUNTY_NAME, "<br>", "Value: ", dfMedHHInc2$estimate)
+```
+
+Get the bounding box for the data
+
+```{r bounding box}
+
+bbox = st_bbox(dfMedHHInc2) %>%
+
+  as.vector()
+
+#create the map
+
+mymap <- leaflet(options = leafletOptions(zoomSnap = 0)) %>%
+
+  addProviderTiles("CartoDB.Positron") %>%
+
+  fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) %>%
+
+  #add the data
+
+  addPolygons(data = dfMedHHInc2, fillColor = ~mypal(dfMedHHInc2$estimate), color = "#b2aeae", fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, popup = popup) %>%
+
+  #add the labels (Need leafem, addstaticlabel function is defunct in mapview)
+
+  addStaticLabels(dfMedHHInc2, label = dfMedHHInc2$COUNTY_NAME) %>%
+
+  #add the legend
+
+  addLegend(pal = mypal, values = dfMedHHInc2$estimate, position = "bottomright", title = "Household Income")
+
+```
+
+```{r maps}
+
+counties = c("Kendall", "Comal", "Bexar", "Atascosa", "Bandera", "Guadalupe", "Medina", "Wilson")
+
+#get the median household income data
+
+dfMedHHInc = get_acs(geography = "county", variables = "B19013_001", geometry = TRUE, year=2017, state= "TX", county = c("Kendall", "Comal", "Bexar", "Atascosa", "Bandera", "Guadalupe", "Medina", "Wilson"))
+
+#wrangle the data
+
+dfMedHHInc2 = separate(dfMedHHInc, NAME, into=c("COUNTY", "STATE"), sep="\\,") %>%
+
+  separate(COUNTY, into=c("COUNTY_NAME", "OTHER"), sep="\\s") %>%
+
+  mutate(STATE = trimws(STATE)) %>%
+
+  mutate(COUNTY_NAME = trimws(COUNTY_NAME)) %>%
+
+  filter(STATE == 'Texas', COUNTY_NAME %in% counties) %>%
+
+  arrange(desc(estimate))
+
+#create the color palette and assign it to the estimate field with 5 bins
+
+mypal = colorBin(palette = "YlGnBu",domain = dfMedHHInc2$estimate, bins = 5, pretty = TRUE)
+
+#create the popup info window
+
+popup = paste0("Name: ", dfMedHHInc2$COUNTY_NAME, "<br>", "Value: ", dfMedHHInc2$estimate)
+
+#get the bounding box for the data
+
+bbox = st_bbox(dfMedHHInc2) %>%
+
+  as.vector()
+
+#create the map
+
+mymap<-leaflet(options = leafletOptions(zoomSnap = 0)) %>%
+
+  addProviderTiles("CartoDB.Positron") %>%
+
+  fitBounds(bbox[1], bbox[2], bbox[3], bbox[4]) %>%
+
+  #add the data
+
+  addPolygons(data = dfMedHHInc2, fillColor = ~mypal(dfMedHHInc2$estimate), color = "#b2aeae", fillOpacity = 0.7, weight = 1, smoothFactor = 0.2, popup = popup) %>%
+
+  #add the labels (Need leafem, addstaticlabel function is defunct in mapview)
+
+  addStaticLabels(dfMedHHInc2, label = dfMedHHInc2$COUNTY_NAME) %>%
+
+  #add the legend
+
+  addLegend(pal = mypal, values = dfMedHHInc2$estimate, position = "bottomright", title = "Household Income")
+
+print(mymap)
+```
+
+### Creating a Bar Chart
+
+A bar chart is a chart or graph that presents categorical data with rectangular bars with heights or length proportional to the values that they represent. The bars can be plotted vertically or horizontally. In the example below a bar chart displays the estimate home values for select variable categories for the County of TEXAS
+
+```{r Bar Chart}
+
+vars = c("$200,000-$249,999" = "B25075_019", "$250,000-$299,999" = "B25075_020", "$300,000-$399,999" =  "B25075_021", "$400,000-$499,999" = "B25075_022", "$500,000-$749,999" =  "B25075_023")
+
+dfHomeVals = get_acs(geography = "county", variables = vars, geometry = FALSE, year=2019, state = 'TX')
+
+dfHomeVals = separate(dfHomeVals, NAME, into=c("COUNTY", "STATE"), sep="\\,")
+
+dfHomeVals = mutate(dfHomeVals, STATE = trimws(STATE))
+
+dfHomeVals = filter(dfHomeVals, COUNTY == 'Bexar County')
+
+head(dfHomeVals)
+```
+
+Plot the chart!
+
+```{r Bar chart(2)}
+
+ggplot(dfHomeVals) + geom_col(mapping = aes(x = variable, y = estimate))
+```
+
+### Creating a Histogram
+
+Histograms are used with continuous data and divide data into bins. The bins cover the entire range of the dataset so that each value will fall into one, and only one, bin. Each bin is then mapped to a bar.
+
+```{r histogram}
+
+dfMedHomeVal = get_acs(table = "B25077", geography = "tract", county = 'Bexar', geometry = FALSE, year=2019, state = 'TX')
+
+ggplot(data = dfMedHomeVal) + geom_histogram(mapping = aes(x=estimate), binwidth=10000)
+```
+
+### Creating a Box Plot
+
+Box plots can be used to show the spread of data for a variable. The box itself defines the Interquartile Range or IQR. It's the range of the data between the 25th and 75th percentile. A larger box indicates a more dispersed dataset, while a smaller box indicates a clustering of data for the variable. The line that runs through the box defines the median of the dataset. The lines extended from the boxes are also known as the whiskers and represent the 0-25% and 75-100% ranges.
+
+```{r Box Plot}
+
+dfMedHomeVal = get_acs(table = "B25077", geography = "tract", geometry = FALSE, year=2019, state = 'TX')
+
+dfMedHomeVal = separate(dfMedHomeVal, NAME, into=c("TRACT", "COUNTY", "STATE"), sep="\\,")
+
+dfMedHomeVal = mutate(dfMedHomeVal, COUNTY = trimws(COUNTY))
+
+dfMedHomeVal = filter(dfMedHomeVal, COUNTY %in% c("Bexar County", "Bandera County", "Kendall County", "Comal County", "Guadalupe County", "Medina County", "Atascosa County", "Wilson County"))
+
+dfMedHomeVal = group_by(dfMedHomeVal, COUNTY)
+
+ggplot(data=dfMedHomeVal, mapping = aes(x = COUNTY, y = estimate)) + geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+```
+
+### Measuring Covariation of Categorical Data with Symbol Size
+
+The geom_count() function can be used to visualize covariation between categorical values. It counts the number of observations for each combination. For example, this slide includes a chart of the number of wildfires by cause and organization. The larger the output symbol, the more fires for that cause and organization.
+
+```{r Covariation - Categorical Variable}
+
+dfMedHomeVal = get_acs(table = "B25077", geography = "tract", geometry = FALSE, year=2019, state = 'TX')
+
+dfMedHomeVal = separate(dfMedHomeVal, NAME, into=c("TRACT", "COUNTY", "STATE"), sep="\\,")
+
+dfMedHomeVal = mutate(dfMedHomeVal, COUNTY = trimws(COUNTY))
+
+dfMedHomeVal = filter(dfMedHomeVal, COUNTY %in% c("Bexar County", "Bandera County", "Kendall County", "Comal County", "Guadalupe County", "Medina County", "Atascosa County", "Wilson County"))
+
+dfMedHomeVal = group_by(dfMedHomeVal, COUNTY)
+
+ggplot(dfMedHomeVal) + geom_count(mapping = aes(x = COUNTY, y = estimate)) + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) 
+```
+
+### Measuring Covariation - Two Continuous Variables
+
+Covariation between two continuous variables can be measured using either the geom_bin2d() or geom_hex() functions. These functions can produce some interesting visualizations that help you spot patterns in your data.
+
+```{r Covariation - Two Cont. Variables}
+
+dfMedHomeVal = get_acs(table = "B25077", geography = "tract", geometry = FALSE, year=2019, state = 'TX')
+
+dfMedHomeVal = separate(dfMedHomeVal, NAME, into=c("TRACT", "COUNTY", "STATE"), sep="\\,")
+
+ggplot(dfMedHomeVal) + geom_bin2d(mapping = aes(x=COUNTY, y=estimate)) + theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)) 
+```
+
+### Mapping Variables to Aesthetics
+
+Variables can be color coded by using the color property for the aes() function. The color property is set to one of the columns in the data frame, and each variable category is assigned a unique color.
+
+```{r with Aesthetics getting errors with the api call will deal with this later}
+
+year_range <- c(2012:2016)
+
+geos_inc <- c("us", 
+
+              "metropolitan statistical area/micropolitan statistical area", 
+
+              "state")
+
+nm_us_metros <- c(1,35,10740,22140,29740,42140)
+
+nm_us_w_micros <- "NM|Texas|United States"
+
+get_historic_acs <- function (variables, 
+
+                              geography, 
+
+                              year, 
+
+                              summary_var = NULL) {
+
+y <- list()
+
+for (i in 1:length(year)) {
+
+  y[[i]] <- lapply(geography, function (x) {
+
+      tidycensus::get_acs (geography = x, 
+
+                           variables = variables, 
+
+                           summary_var = summary_var, 
+
+                           output = "tidy", 
+
+                           year = year[i])}) %>%
+
+      bind_rows() %>% 
+
+      mutate(year = year[i]) } 
+
+  y %>% bind_rows() }
+
+variable <-c("DP02_0011P", 
+
+             "DP02_0067P",
+
+             "DP02_0069P",
+
+             "DP02_0090P", 
+
+             "DP02_0092P", 
+
+             "DP02_0111P", 
+
+             "DP03_0005P", 
+
+             "DP03_0021P", 
+
+             "DP03_0028P",
+
+             "DP03_0088",
+
+             "DP03_0096P",
+
+             "DP03_0128P")
+
+label <- c("%Householders living alone", 
+
+           "%Bachelor's degree or higher", 
+
+           "%Civilian veterans",
+
+           "%Born different state", 
+
+           "%Foreign born",
+
+           "%Speak English only @ home", 
+
+           "%Civilian LF - Unemployed",  
+
+           "%Public trans to work", 
+
+           "%Service occupations", 
+
+           "$Per capita income", 
+
+           "%Health insurance", 
+
+           "%Below FPL - All people")
+
+dp_table <- as.data.frame(cbind(variable, label))
+
+dp_data <- get_historic_acs(variables=variable, 
+
+                            geography = geos_inc, 
+
+                            year = year_range)
+
+#Filter data set
+
+dp_data %>%
+
+  filter(GEOID %in% c(nm_us_metros)) %>%
+
+  left_join(dp_table)%>%
+
+#Build viz:
+
+  ggplot(aes(x = year, y =  estimate, color=NAME, 
+
+             ymin=estimate - moe, ymax=estimate + moe)) +
+
+    geom_line(size=.95) +
+
+    geom_errorbar(width=0.1) +
+
+    scale_colour_stata() + 
+
+    theme_fivethirtyeight()+
+
+    theme(legend.position="bottom", 
+
+          legend.title = element_blank(), 
+
+          plot.title = element_text(size=14))+
+
+    ylab ("") + xlab("") +
+
+    facet_wrap(~label, scales = "free_y", ncol=3)+ 
+
+    labs(title="Socio-economic profiles",
+
+         subtitle="NM & USA, 2012-2016")
+```
+
+### Basic Scatterplot with Labels
+
+Scatterplots are created using the geom_point() function. To create the individual points on the plot you'll need to pass in x and y parameters to the aes() function. The values passed to the x and y parameters should be columns from your data frame. This example illustrates the creation of what is called a Cleveland Dot Plot, which is basically a scatterplot. The chart will be an ordered scatterplot of median homes values by state for ACS 2017.
+
+```{r Scattplot with Labels}
+
+dfMedHomeVal = get_acs(table = "B25077", geography = "state", geometry = FALSE, year=2019)
+
+ggplot(dfMedHomeVal, aes(x = estimate, y = reorder(NAME, estimate))) + geom_point(color = "navy", size = 2) + geom_text_repel(aes(label=estimate), size=3) + scale_x_continuous(labels = scales::dollar) + theme_minimal(base_size = 14) + labs(x = "2017 ACS estimate", y = "", title = "Median Home Value by State", caption = "2017 ACS - 5 Year")
+```
+
+### Faceting
+
+Facet plots are an interesting visualization that allows you to create comparison plots for a variable. For example, the facet plot on this slide displays acreage burned by year for each state in the study area. There are two methods in ggplot2 that enable you to create facet plots. Facet_wrap() creates a subset at the level of a single grouping variable, similar to the facet plot seen on this slide where State is the single grouping variable. A facet_grid() subsets the crossing of two grouping variables. These are great plots for comparison of one or more variables.
+
+```{r Faceting getting errors with API call.. will deal with this later}
+
+variable <- c('DP02_0059P', 
+
+              'DP02_0060P', 
+
+              'DP02_0061P', 
+
+              'DP02_0062P', 
+
+              'DP02_0063P', 
+
+              'DP02_0064P', 
+
+              'DP02_0065P')
+
+ed_labels <- c('Less than 9th Grade', 
+
+               '9th to 12th grade, no diploma', 
+
+               'High school graduate', 
+
+               'Some college, no degree', 
+
+               "Associate's degree", 
+
+               "Bachelor's degree", 
+
+               'Grad/pro degree')
+
+ed_level <- c(1:7)
+
+ed_table <- as.data.frame(cbind(variable, ed_level, ed_labels), stringsAsFactors =FALSE)
+
+ed_data <- get_historic_acs(variables=variable, 
+
+                            geography = geos_inc, 
+
+                            year = year_range)
+
+ed_data %>%
+
+  left_join(ed_table) %>% 
+
+  mutate(ed_level = as.numeric(ed_level))%>%
+
+  filter(grepl (nm_us_w_micros, NAME))%>%
+
+  mutate (NAME = ifelse(GEOID == 21580, "Espanola, NM Micro Area", NAME)) %>%
+
+#Build viz:  
+
+  ggplot(aes(x = year, 
+
+             y = estimate, 
+
+             fill = reorder(ed_labels, -ed_level))) + 
+
+    geom_col(color= 'gray', width = .8) +
+
+    scale_fill_brewer(palette = 'BrBG') +
+
+    theme_fivethirtyeight()+
+
+    coord_flip()+
+
+    facet_wrap(~NAME, ncol = 3)+
+
+    theme(legend.position="bottom", 
+
+          legend.title = element_blank(), 
+
+          plot.title = element_text(size=14))+
+
+    labs(title="Educational attainment profiles",
+
+         subtitle="NM & USA, 2012-2016")
+```
+
+### Violin Plot
+
+Violin plots are similar to box plots except that they also show the density of data at different values. Thicker areas on the plot indicate a higher probability at that values, while thinner areas indicate a lower probability for the value. It's common to also include a box plot inside the violin plot to get a sense of the median of the dataset along with the range of data.
+
+```{r Violin Plot}
+
+vars = c("$200,000-$249,999" = "B25075_019", "$250,000-$299,999" = "B25075_020", "$300,000-$399,999" =  "B25075_021", "$400,000-$499,999" = "B25075_022", "$500,000-$749,999" =  "B25075_023")
+
+dfHomeVals = get_acs(geography = "tract", variables = vars, geometry = FALSE, year=2019, state = 'TX')
+
+dfHomeVals = separate(dfHomeVals, NAME, into=c("TRACT", "COUNTY", "STATE"), sep="\\,")
+
+#dfHomeVals = mutate(dfHomeVals, STATE = trimws(STATE))
+
+dfHomeVals = mutate(dfHomeVals, COUNTY = trimws(COUNTY))
+
+dfHomeVals = filter(dfHomeVals, COUNTY %in% c("Bexar County", "Bandera County", "Kendall County", "Comal County", "Guadalupe County", "Medina County", "Atascosa County", "Wilson County"))
+
+head(dfHomeVals)
+
+
+```
+
+```{r Violin Plot(2)}
+
+ggplot(dfHomeVals) +  geom_violin(aes(x = COUNTY, y = estimate))
+```
+
+### Summary Statistics
+
+R also includes a number of individual functions that can be used to generate specific summary statistics. These functions include mean(), median(), var(), sd(), min(), max(), quartile(), and others. You can use these functions individually or you can calculate multiple summary statistics at once with the summary() function. The summary() function runs summary statistics for numeric columns in a data frame.
+
+```{r Summary 1}
+
+dfMedHHInc = get_acs(geography = "county", table = "B19013", geometry = TRUE, year=2019, state= "TX")
+
+summary(dfMedHHInc$estimate)
+```
+
+```{r Mean}
+
+mean(dfMedHHInc$estimate)
+```
+
+```{r SD}
+
+sd(dfMedHHInc$estimate)
+```
+
+Below we will demonstrate examples that we can do
+
+### Comparing health insurance rates
+
+Lets take a closer look at changes for both metro and micro areas in NW comparing coverage rates in 2012 to 2016
+
+```{r TX health}
+
+dp_data %>%
+
+  filter(year %in% c(2012,2016), 
+
+         grepl (nm_us_w_micros, NAME), 
+
+         variable == "DP03_0096P") %>%
+
+  mutate (NAME = ifelse(GEOID == 21580, "Espanola, NM Micro Area", NAME), 
+
+          year = paste0("p",year), 
+
+          NAME = gsub (", NM.*$","", NAME)) %>%
+
+  select(-moe) %>%
+
+  spread (year, estimate) %>%
+
+  ggplot(aes(reorder(NAME, -p2012), x=p2012, xend=p2016)) + 
+
+    geom_dumbbell(size=3, 
+
+                  color="#e3e2e1", 
+
+                  colour_x = "#5b8124", 
+
+                  colour_xend = "#bad744",
+
+                  dot_guide=TRUE, dot_guide_size=0.05) +
+
+    labs(x=NULL, y=NULL, 
+
+         title="Healthcare coverage",
+
+         subtitle="NM & USA: comparing 2012 and 2016") +
+
+    theme_fivethirtyeight()+
+
+    theme(panel.grid.major.x=element_line(size=0.05)) +
+
+    theme(panel.grid.major.y=element_blank(), plot.title = element_text(size=14))
+```
+
+This particular plot does a really nice job showing how municipalities within the state of New Mexico have benefited from the Affordable Care Act relative to the United States as a whole, and, again, demonstrates the utility of using tidycensus/data profiles in tandem for quickly visualizing and evaluating socio-economic change historically.
+
+### Educational Attainment profiles
+
+Next, we consider educational attainment distributions by geography over time. Again, these data are most easily accessed via the census data profiles, specifically table DP02.
+
+```{r education}
+
+variable <- c('DP02_0059P', 
+
+              'DP02_0060P', 
+
+              'DP02_0061P', 
+
+              'DP02_0062P', 
+
+              'DP02_0063P', 
+
+              'DP02_0064P', 
+
+              'DP02_0065P')
+
+ed_labels <- c('Less than 9th Grade', 
+
+               '9th to 12th grade, no diploma', 
+
+               'High school graduate', 
+
+               'Some college, no degree', 
+
+               "Associate's degree", 
+
+               "Bachelor's degree", 
+
+               'Grad/pro degree')
+
+ed_level <- c(1:7)
+
+ed_table <- as.data.frame(cbind(variable, ed_level, ed_labels), stringsAsFactors =FALSE)
+```
+
+We need to again collect data via the ACS API with the get_acs() wrapper function
+
+```{r wrapper function}
+
+ed_data <- get_historic_acs(variables=variable, 
+
+                            geography = geos_inc, 
+
+                            year = year_range) 
+
+```
+
+Now we can add varialbe details and filters to our geographies and plot it
+
+```{r detail}
+
+#Filter and transform data:
+
+ed_data %>%
+
+  left_join(ed_table) %>% 
+
+  mutate(ed_level = as.numeric(ed_level))%>%
+
+  filter(grepl (nm_us_w_micros, NAME))%>%
+
+  mutate (NAME = ifelse(GEOID == 21580, "Espanola, NM Micro Area", NAME)) %>%
+
+#Build viz:  
+
+  ggplot(aes(x = year, 
+
+             y = estimate, 
+
+             fill = reorder(ed_labels, -ed_level))) + 
+
+    geom_col(color= 'gray', width = .8) +
+
+    scale_fill_brewer(palette = 'BrBG') +
+
+    theme_fivethirtyeight()+
+
+    coord_flip()+
+
+    facet_wrap(~NAME, ncol = 3)+
+
+    theme(legend.position="bottom", 
+
+          legend.title = element_blank(), 
+
+          plot.title = element_text(size=14))+
+
+    labs(title="Educational attainment profiles",
+
+         subtitle="NM & USA, 2012-2016")
+
+```
+
+So, we get a sense of variation in distributions of educational attainment across different geographies in Texas; we can also get a sense of changes in these distributions over time. Similar profiles can be built for race/ethnicity, language spoken at home, income levels, etc. simply by amending the variable parameter above.
+
+### Age Distribution Profiles
+
+Lastly, we consider age distributions historically by comparing population pyramids at 2012 and 2016. Here, we branch out from the convenience of ACS data profile tables to obtain age-by-sex data from table B01001. That said, we use the same query methods and functions to obtain our data.
+
+```{r variable}
+
+variable <- sprintf("%03d", c(3:25, 27:49)) %>%
+
+  paste0("B01001_",.)
+```
+
+Age and sex variables include:
+
+\#\# [1] "B01001_003" "B01001_004" "B01001_005" "B01001_006" "B01001_007"
+
+\#\# [6] "B01001_008" "B01001_009" "B01001_010" "B01001_011" "B01001_012"
+
+\#\# [11] "B01001_013" "B01001_014" "B01001_015" "B01001_016" "B01001_017"
+
+\#\# [16] "B01001_018" "B01001_019" "B01001_020" "B01001_021" "B01001_022"
+
+\#\# [21] "B01001_023" "B01001_024" "B01001_025" "B01001_027" "B01001_028"
+
+\#\# [26] "B01001_029" "B01001_030" "B01001_031" "B01001_032" "B01001_033"
+
+\#\# [31] "B01001_034" "B01001_035" "B01001_036" "B01001_037" "B01001_038"
+
+\#\# [36] "B01001_039" "B01001_040" "B01001_041" "B01001_042" "B01001_043"
+
+\#\# [41] "B01001_044" "B01001_045" "B01001_046" "B01001_047" "B01001_048"
+
+\#\# [46] "B01001_049"
+
+Here we build out variable details manually; there are other (presumably smarter) ways to do this. This approach is streamlined for building population pyramids.
+
+```{r population pyramid}
+
+age <- c(rep ( c("0-4", "5-9", "10-14", 
+
+                 "15-19", "15-19", "20-24", 
+
+                 "20-24", "20-24", "25-29", 
+
+                 "30-34", "35-39", "40-44", 
+
+                 "45-49", "50-54", "55-59", 
+
+                 "60-64", "60-64", "65-69", 
+
+                 "65-69", "70-74", "75-79", 
+
+                 "80-84", "85-over"),
+
+               2))
+
+order <- rep(c(1:3,4,4,5,5,5,6:12, 13,13,14,14,15:18),2)
+
+gender <- c(rep("Male",23), 
+
+            rep("Female",23))
+
+age_table <- as.data.frame(
+
+  cbind(variable, gender, order, age), 
+
+  stringsAsFactors =FALSE)
+```
+
+Again, we call our wrapper function to tidycensus::get_acs(), using the same year and geography parameters as initialized for our previous data profile queries.
+
+```{r wrapper again}
+
+age_data <- get_historic_acs(variables = variable, 
+
+                             geography = geos_inc, 
+
+                             year = year_range, 
+
+                             summary_var = "B01001_001")
+```
+
+Next, we perform some data transformation processes: namely,
+
+\- join variable details,
+
+\- aggregate over more detailed census age categories,
+
+\- convert from counts to percentages, and
+
+\- transform male percentages to negative for pyramid.
+
+```{r data transformation}
+
+age_data_trans <- age_data %>%
+
+  inner_join(age_table) %>%
+
+  group_by(GEOID, NAME, year, age, gender, order) %>%
+
+  summarize(estimate = sum(estimate), 
+
+            summary_est = mean (summary_est))%>%
+
+  ungroup()%>%
+
+  mutate(percent = round(estimate/summary_est*100,1)) %>%
+
+  mutate(percent = ifelse(gender == "Male",percent*-1,percent))%>%
+
+  mutate (NAME = ifelse(GEOID == 21580, "Espanola, NM Micro Area", NAME),
+
+          order=as.numeric(order)) 
+```
+
+A bit of a hack for the geom_step portion of our plot below:
+
+```{r hack}
+
+age_data_overlay <- age_data_trans %>%
+
+  bind_rows(age_data_trans %>% 
+
+              filter(year==2012, age=="85-over") %>% 
+
+              group_by(GEOID) %>% 
+
+              mutate(order = order + 1)) 
+```
+
+Lastly, we plot age distributions in 2016 as traditional population pyramid and age distributions in 2012 as a geom_step overlay:
+
+```{r plot pyramid}
+
+#Plot pyramids
+
+ggplot(data = age_data_trans %>% 
+
+         filter(year == 2016, grepl (nm_us_w_micros, NAME)), 
+
+       aes(x = reorder(age,order) , y = percent, fill =gender)) +
+
+  geom_col() +
+
+  
+
+#ADD overlay
+
+  geom_step(data = age_data_overlay %>% 
+
+              filter(gender == "Male", 
+
+                     year == 2012, 
+
+                     grepl (nm_us_w_micros, NAME)),
+
+            aes(x=order -.5), size = .7) + 
+
+  
+
+  geom_step(data = age_data_overlay %>% 
+
+              filter(gender == "Female", 
+
+                     year == 2012, 
+
+                     grepl (nm_us_w_micros, NAME)), 
+
+            aes(x=order -.5), size = .7) + 
+
+  
+
+#Add some format
+
+  scale_y_continuous(breaks=c(-5, 0, 5),
+
+                     labels=c("5%", "0%", "5%")) +
+
+  scale_x_discrete(labels = xlab) + 
+
+  coord_flip() +
+
+  facet_wrap(~NAME, ncol=3)+
+
+  scale_fill_stata() +
+
+  theme_fivethirtyeight()+
+
+  theme(legend.position="bottom", 
+
+        legend.title = element_blank(), 
+
+        plot.title = element_text(size=14))+
+
+  labs(title="Population pyramids",
+
+       subtitle="NM & USA: comparing 2012 (line) and 2016 (color)")
+```
+
+Indeed, quite a bit of variation in age distributions throughout MSAs in New Mexico; a fairly consistent theme, however, is that distributions have grown more top-heavy over the last five years.
+
+### ACS R Summary
+
+So, some reproducible workflows for quickly profiling a set of geographies historically using the tidycensus package, along with some different approaches to visualizing trend data across multiple geographies. Code can be re-used to profile any collection of geographies in the US.
+
+#### Helpful links for Tidycensus
+
+<https://walker-data.com/tidycensus/index.html>
+
+<https://mattherman.info/blog/tidycensus-mult-year/>
+
+<https://walker-data.com/>
+
+<https://walker-data.com/2017/05/tidycensus-every-tract/>
+
+<https://juliasilge.com/blog/using-tidycensus/>
+
+<http://zevross.com/blog/2018/10/02/creating-beautiful-demographic-maps-in-r-with-the-tidycensus-and-tmap-packages/>
+
+#### Other Tools
+
+If we ever want to use IPUMS data we can use the following R package: <https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html>
+
+Other R Packages for Census include:
+
+censusapi which gives you accesss to 300+ Census APIS <https://github.com/hrecht/censusapi>
+
+lehdr gives you access to the longitudinal employer-household dynamics data (LODES) <https://github.com/jamgreen/lehdr>
+
+Tabula - extract tables from PDFs <https://tabula.technology/>
+
+Tabulizer - same thing but as an R package for programatic use! <https://cran.r-project.org/web/packages/tabulizer/vignettes/tabulizer.html>
+
+## Census and R guides and resources
+
+<https://rconsortium.github.io/censusguide/>
+
+<https://journal.r-project.org/archive/2013-1/kahle-wickham.pdf>
+
+<https://www.census.gov/data/academy/courses/choroplethr.html>
+
+<https://www.jtimm.net/2018/03/29/historical-socio-demographic-profiles/>
+
+<https://rstudio-pubs-static.s3.amazonaws.com/541247_e7b707cd2f71405bb5624517877785ff.html>
+
+<https://map-rfun.library.duke.edu/02_choropleth.html>
+
+<https://walker-data.com/isds-webinar/#16>
+
+<https://s3.amazonaws.com/assets.datacamp.com/production/course_6839/slides/chapter2.pdf>
+
+<https://jennhuck.github.io/workshops/tidycensus.html>
+
+<https://people.ohio.edu/ruhil/Rbook/census-data-in-r.html>
+
+<https://geospatialtraining.com/exploring-and-mapping-census-data-with-r/>
+
+<https://gist.github.com/rafapereirabr/97a7c92d40f91cd20a10e8e0165a0aef>
